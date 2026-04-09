@@ -27,7 +27,7 @@ namespace WebApplication1.Models
         public string Cedula { get; set; }
 
         [Column("telefono")]
-        public string? Telefono { get; set; } // El signo '?' permite que sea opcional
+        public string? Telefono { get; set; }
 
         [Column("direccion")]
         public string? Direccion { get; set; }
