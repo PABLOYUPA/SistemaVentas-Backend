@@ -1,6 +1,5 @@
 import React from 'react';
 
-// 1. Recibimos la nueva prop 'soloLectura'
 const FacturaModelo = ({ datosVenta, datosCliente, productos, onGuardar, soloLectura }) => {
   
   const fuenteBase = {
