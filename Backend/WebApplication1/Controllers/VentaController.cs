@@ -16,14 +16,14 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
-        // GET: api/Venta (Listar todas las ventas con sus detalles)
+        //GET: api/Venta
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Venta>>> GetVentas()
         {
             return await _context.Ventas.Include(v => v.Detalles).ToListAsync();
         }
 
-        // GET: api/Venta/V001 (Buscar una venta específica)
+        //GET: api/Venta/V001 
         [HttpGet("{id}")]
         public async Task<ActionResult<Venta>> GetVenta(string id)
         {
@@ -38,13 +38,13 @@ namespace WebApplication1.Controllers
             return venta;
         }
 
-        // POST: api/Venta (EL CORAZÓN DEL SISTEMA - CON ESCUDOS CONTRA ERRORES)
+        //POST: api/Venta 
         [HttpPost]
         public async Task<ActionResult<Venta>> PostVenta(Venta venta)
         {
             try
             {
-                // EF Core guardará la venta y la lista de detalles en una sola transacción
+                //EF Core guardará la venta y la lista de detalles en una sola transacción
                 _context.Ventas.Add(venta);
                 await _context.SaveChangesAsync();
 
@@ -52,19 +52,19 @@ namespace WebApplication1.Controllers
             }
             catch (DbUpdateException ex)
             {
-                // 1. ESCUDO PARA LLAVES FORÁNEAS (Si el cliente o producto no existen)
+                //Escudo por si el cliente o producto no existen
                 if (ex.InnerException != null && ex.InnerException.Message.Contains("FOREIGN KEY"))
                 {
                     return BadRequest("Error: El Cliente o el Producto especificado no existen en la base de datos. Por favor, verifique los IDs.");
                 }
 
-                // 2. ESCUDO PARA IDs DUPLICADOS
+                //Escudo para ids duplicados
                 if (_context.Ventas.Any(e => e.Id == venta.Id))
                 {
                     return Conflict("El ID de esta venta ya existe.");
                 }
 
-                // 3. ERROR GENÉRICO (Para no mostrar pantallas rojas en VS)
+                //Para no mostrar pantallas rojas en VS
                 return StatusCode(500, "Ocurrió un error inesperado al intentar guardar en la base de datos.");
             }
         }
