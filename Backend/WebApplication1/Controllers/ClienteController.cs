@@ -16,14 +16,14 @@ namespace WebApplication1.Controllers
             _context = context;
         }
 
-        // GET: api/Cliente
+        //GET: api/Cliente
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Cliente>>> GetClientes()
         {
             return await _context.Clientes.ToListAsync();
         }
 
-        // GET: api/Cliente/C001
+        //GET: api/Cliente/C001
         [HttpGet("{id}")]
         public async Task<ActionResult<Cliente>> GetCliente(string id)
         {
@@ -37,14 +37,11 @@ namespace WebApplication1.Controllers
             return cliente;
         }
 
-        // ============================================================
-        // GET: api/Cliente/cedula/0102030401
-        // Permite la búsqueda específica por el campo Cédula
-        // ============================================================
+        //GET: api/Cliente/cedula/0102030401
         [HttpGet("cedula/{cedula}")]
         public async Task<ActionResult<Cliente>> GetClienteByCedula(string cedula)
         {
-            // Usamos FirstOrDefaultAsync porque la cédula no es la clave primaria (Id)
+            //Hacemos uso de FirstOrDefaultAsync para buscar mediante la cedula aun que no sea la clave primaria
             var cliente = await _context.Clientes.FirstOrDefaultAsync(c => c.Cedula == cedula);
 
             if (cliente == null)
@@ -55,7 +52,7 @@ namespace WebApplication1.Controllers
             return cliente;
         }
 
-        // POST: api/Cliente
+        //POST: api/Cliente
         [HttpPost]
         public async Task<ActionResult<Cliente>> PostCliente(Cliente cliente)
         {
@@ -65,7 +62,7 @@ namespace WebApplication1.Controllers
             return CreatedAtAction(nameof(GetCliente), new { id = cliente.Id }, cliente);
         }
 
-        // PUT: api/Cliente/C001
+        //PUT: api/Cliente/C001
         [HttpPut("{id}")]
         public async Task<IActionResult> PutCliente(string id, Cliente cliente)
         {
@@ -95,7 +92,7 @@ namespace WebApplication1.Controllers
             return NoContent();
         }
 
-        // DELETE: api/Cliente/C001
+        //DELETE: api/Cliente/C001
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteCliente(string id)
         {
