@@ -1,12 +1,13 @@
 import React from 'react';
 
-const ResumenVenta = ({ productos = [], habilitarFactura }) => { // Recibimos la prop desde App.jsx
+const ResumenVenta = ({ productos = [], habilitarFactura }) => {
     
     const fuenteBase = {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         color: 'black'
     };
 
+    //Suaviza el cambio visual cuando se habilita
     const estiloBotonBase = {
         ...fuenteBase,
         border: 'none',
@@ -15,13 +16,13 @@ const ResumenVenta = ({ productos = [], habilitarFactura }) => { // Recibimos la
         borderRadius: '5px',
         width: '180px',
         fontSize: '0.9rem',
-        transition: 'all 0.3s ease' // Suaviza el cambio visual cuando se habilita
+        transition: 'all 0.3s ease' 
     };
 
+    // Si no está habilitada, bajamos la opacidad y cambiamos el cursor
     const estiloBotonGenerar = {
         ...estiloBotonBase,
         backgroundColor: '#cccccc',
-        // Si no está habilitada, bajamos la opacidad y cambiamos el cursor
         opacity: habilitarFactura ? 1 : 0.5,
         cursor: habilitarFactura ? 'pointer' : 'not-allowed'
     };
@@ -31,7 +32,7 @@ const ResumenVenta = ({ productos = [], habilitarFactura }) => { // Recibimos la
         backgroundColor: '#cccccc',
     };
 
-    // Lógica de cálculo blindada
+    //Logica de calculo
     const listaValida = Array.isArray(productos) ? productos : [];
     const subtotalGeneral = listaValida.reduce((acc, p) => acc + (Number(p.subtotal) || 0), 0);
     const iva = subtotalGeneral * 0.15;
@@ -45,7 +46,7 @@ const ResumenVenta = ({ productos = [], habilitarFactura }) => { // Recibimos la
     return (
         <div className="d-flex justify-content-between align-items-start mt-4 mb-5">
             
-            {/* BLOQUE IZQUIERDO: Cálculos */}
+            {/* BLOQUE IZQUIERDO: Calculos */}
             <div style={{ minWidth: '250px' }}>
                 <table className="table table-sm table-borderless mb-0">
                     <tbody style={fuenteBase}>
@@ -73,14 +74,14 @@ const ResumenVenta = ({ productos = [], habilitarFactura }) => { // Recibimos la
 
             {/* BLOQUE DERECHO: Botones */}
             <div className="d-flex flex-column gap-2 pt-1">
-                {/* Botón superior con validación de estado */}
+                {/* Boton superior con validacion de estado */}
                 <button 
                     type="button" 
                     style={estiloBotonGenerar}
                     className="shadow-sm"
                     data-bs-toggle="modal" 
                     data-bs-target="#modalFactura"
-                    // Desactiva el botón físicamente si la validación es falsa
+                    // Desactiva el boton fisicamente si la validacion es falsa
                     disabled={!habilitarFactura}
                 >
                     Generar Factura
@@ -89,13 +90,13 @@ const ResumenVenta = ({ productos = [], habilitarFactura }) => { // Recibimos la
                 {/* Separador visual */}
                 <div style={{ height: '28px' }}></div>
 
-                {/* Botón inferior: Historial actualizado con activador de modal */}
+                {/* Boton inferior: Historial actualizado con activador de modal */}
                 <button 
                     type="button" 
                     style={estiloBotonHistorial}
                     className="shadow-sm"
                     data-bs-toggle="modal" 
-                    data-bs-target="#modalHistorial" // Coincide con el ID en HistorialFactura.jsx
+                    data-bs-target="#modalHistorial"
                 >
                     Historial de Facturas
                 </button>
