@@ -2,10 +2,10 @@ import React, { useEffect } from 'react';
 import { FcFinePrint } from "react-icons/fc";
 
 const CabeceraVenta = ({ datos, setDatos }) => {
-  // Obtiene la fecha actual en formato YYYY-MM-DD para validaciones
+  //Obtiene la fecha actual en formato YYYY-MM-DD para validaciones
   const hoy = new Date().toLocaleDateString('en-CA');
 
-  // Lógica para autogenerar el número de comprobante al cargar el componente
+  //Autogenera el numero de comprobante 
   useEffect(() => {
     const numAleatorio = Math.floor(1000 + Math.random() * 9000);
     const anioActual = new Date().getFullYear();
@@ -17,7 +17,7 @@ const CabeceraVenta = ({ datos, setDatos }) => {
     }));
   }, []);
 
-  // Función para validar que no se elijan fechas futuras
+  //Funcion para que no se elijan fechas futuras
   const manejarCambioFecha = (e) => {
     const fechaSeleccionada = e.target.value;
     if (fechaSeleccionada > hoy) {
@@ -28,7 +28,7 @@ const CabeceraVenta = ({ datos, setDatos }) => {
     }
   };
 
-  // Estilo base Segoe UI
+  //Estilo base Segoe UI
   const fuenteBase = {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: 'black'
@@ -37,14 +37,14 @@ const CabeceraVenta = ({ datos, setDatos }) => {
   return (
     <div className="card shadow-sm p-4 border-0 mb-4">
       <div className="row align-items-center">
-        {/* Etiqueta de la sección */}
+        {/* Etiqueta de la seccion */}
         <div className="col-md-2">
           <h5 className="text-muted m-0 small fw-bold" style={fuenteBase}>
             DATOS DE VENTA
           </h5>
         </div>
 
-        {/* Campo Fecha con validación */}
+        {/* Campo Fecha con validacion */}
         <div className="col-md-4">
           <div className="d-flex align-items-center">
             <label className="me-2 small text-secondary" style={fuenteBase}>Fecha Venta:</label>
@@ -59,7 +59,7 @@ const CabeceraVenta = ({ datos, setDatos }) => {
           </div>
         </div>
 
-        {/* Campo Número de Comprobante */}
+        {/* Campo Numero de Comprobante */}
         <div className="col-md-6">
           <div className="d-flex align-items-center">
             <label className="me-2 small text-secondary" style={fuenteBase}>N° Comprobante:</label>
