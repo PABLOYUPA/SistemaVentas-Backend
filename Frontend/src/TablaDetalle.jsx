@@ -1,5 +1,5 @@
 import React from 'react';
-// Importamos el icono solicitado para mantener la coherencia profesional
+//Importamos icono
 import { FcCancel } from "react-icons/fc";
 
 const estilosTabla = {
@@ -88,7 +88,7 @@ const TablaDetalle = ({ productos = [], eliminarProducto }) => {
             ))
           ) : (
             <tr>
-              {/* Ajustamos colSpan a 7 para cubrir la nueva columna */}
+              {/* Ajustamos colSpan a 7 */}
               <td colSpan="7" style={estilosTabla.sinProductos}>
                 No hay productos agregados al detalle de la venta.
               </td>
