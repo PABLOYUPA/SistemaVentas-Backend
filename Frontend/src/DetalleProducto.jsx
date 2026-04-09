@@ -1,5 +1,5 @@
 import React from 'react';
-// Importamos todos los iconos necesarios de la familia fc
+//Importamos todos los iconos
 import { 
   FcDataRecovery, 
   FcBinoculars, 
@@ -9,13 +9,13 @@ import {
 
 const DetalleProducto = ({ seleccionado, setSeleccionado, agregarALista, clienteListo }) => {
   
-  // Estilo base Segoe UI
+  //Estilo base Segoe UI
   const fuenteBase = {
     fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
     color: 'black'
   };
 
-  // Estilo específico para campos de solo lectura (quita el cursor de texto)
+  //Campos de solo lectura 
   const estiloSoloLectura = {
     ...fuenteBase,
     cursor: 'default',
