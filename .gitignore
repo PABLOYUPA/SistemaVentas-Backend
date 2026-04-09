@@ -1,18 +1,25 @@
-# --- Extensiones de Visual Studio ---
+# --- Backend / Visual Studio ---
 .vs/
 *.user
 *.userosscache
 *.sln.docstates
-
-# --- Carpetas de Compilación (Fundamentales) ---
 bin/
 obj/
 
-# --- Archivos temporales de SQL Server (si hay alguno en la carpeta) ---
+# --- Base de Datos (SQL Server) ---
 *.mdf
 *.ldf
 *.tmp
 
-# --- Otros ---
+# --- Frontend (React / Vite / Node) ---
+node_modules/
+dist/
+dist-ssr/
+*.local
+.env
+.env.*.local
+
+# --- Archivos de Sistema / Basura ---
 .DS_Store
 Thumbs.db
+desktop.ini
