@@ -17,7 +17,7 @@ namespace WebApplication1.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Configuración adicional si fuera necesaria (Fluent API)
+            //Metodo encargado de configurar el mapeo de objetos a la base de datos durante su creacion.
             base.OnModelCreating(modelBuilder);
         }
     }
