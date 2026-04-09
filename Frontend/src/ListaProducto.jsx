@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 
-// Recibimos triggerRecarga como prop
+//Recibimos triggerRecarga como prop
 const ListaProductos = ({ alSeleccionar, triggerRecarga }) => {
     const [productos, setProductos] = useState([]);
     const [busqueda, setBusqueda] = useState('');
@@ -16,7 +16,7 @@ const ListaProductos = ({ alSeleccionar, triggerRecarga }) => {
         }
     };
 
-    // 2. useEffect: depende de [triggerRecarga]
+    //Tabla de productos siempre actualizada
     useEffect(() => {
         cargarProductos();
     }, [triggerRecarga]); 
