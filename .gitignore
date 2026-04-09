@@ -1,0 +1,18 @@
+# --- Extensiones de Visual Studio ---
+.vs/
+*.user
+*.userosscache
+*.sln.docstates
+
+# --- Carpetas de Compilación (Fundamentales) ---
+bin/
+obj/
+
+# --- Archivos temporales de SQL Server (si hay alguno en la carpeta) ---
+*.mdf
+*.ldf
+*.tmp
+
+# --- Otros ---
+.DS_Store
+Thumbs.db
