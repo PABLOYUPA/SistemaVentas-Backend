@@ -1,7 +1,6 @@
 import { useState } from 'react'
 import axios from 'axios'
 import './App.css'
-// IMPORTACIÓN DE BOOTSTRAP COMO MÓDULO
 import * as bootstrap from 'bootstrap'; 
 import ListaProducto from './ListaProducto'; 
 import CabeceraVenta from './CabeceraVenta';
@@ -11,16 +10,17 @@ import TablaDetalle from './TablaDetalle';
 import ResumenVenta from './ResumenVenta';
 import FacturaModelo from './FacturaModelo';
 import HistorialFactura from './HistorialFactura';
-// Importamos la lógica de negocio externa
+//Importamos la lógica de negocio externa
 import { VentaServicio } from './VentaServicio'; 
 
+//Genera un código de comprobante único para cada transacción 
 const generarNuevoComprobante = () => {
   const numeroAleatorio = Math.floor(1000 + Math.random() * 9000); 
   return `2026-UTA-${numeroAleatorio}`;
 };
 
 function App() {
-  // --- ESTADOS EXISTENTES ---
+  //Controlan la reactividad de la interfaz: desde datos del cliente hasta las compras.
   const [datosVenta, setDatosVenta] = useState({
     fecha: new Date().toLocaleDateString('en-CA'),
     comprobante: generarNuevoComprobante() 
@@ -41,12 +41,13 @@ function App() {
   const [recargarProductos, setRecargarProductos] = useState(0);
   const [esReimpresion, setEsReimpresion] = useState(false);
 
-  // --- AISLAMIENTO PARA EL MODAL DE FACTURA ---
+  //Permite visualizar la factura sin alterar la mesa de trabajo principal.
   const [productosParaFactura, setProductosParaFactura] = useState([]);
 
-
-  // --- FUNCIONES ---
-
+  /**
+   * Consulta al Backend (API) la existencia de un cliente mediante su cédula.
+   * Si no existe, limpia los campos para un nuevo registro.
+   */
   const buscarCliente = async (cedula) => {
     if (!cedula) {
       alert("Por favor ingrese una cédula para buscar");
@@ -64,6 +65,10 @@ function App() {
     }
   };
 
+  /**
+   * Captura el producto seleccionado desde el catálogo y prepara el estado
+   * para definir la cantidad a vender.
+   */
   const alSeleccionarProducto = (prod) => {
     setEsReimpresion(false);
     setSeleccionado({
@@ -77,6 +82,7 @@ function App() {
     });
   };
 
+  //Valida stock y agrega el producto a Estado productosVenta.
   const agregarALista = () => {
     const { id, nombreComercial, precio, cantidad, stock, presentacion } = seleccionado;
     if (!id) { alert("Por favor, seleccione un producto primero."); return; }
@@ -93,19 +99,22 @@ function App() {
     };
 
     setProductosVenta([...productosVenta, nuevoItem]);
-    // Sincronizamos con el estado de factura para que el modal se llene mientras agregas
     setProductosParaFactura([...productosVenta, nuevoItem]); 
 
     setSeleccionado({ id: '', nombreComercial: '', nombreGenerico: '', presentacion: '', precio: 0, cantidad: '', stock: 0 });
   };
 
+  //Remueve un ítem del estado de venta y actualiza la previsualización del modal.
   const eliminarDeLista = (indexAEliminar) => {
     const nuevaLista = productosVenta.filter((_, index) => index !== indexAEliminar);
     setProductosVenta(nuevaLista);
-    setProductosParaFactura(nuevaLista); // Sincronizamos eliminación
+    setProductosParaFactura(nuevaLista); 
   };
 
-  // --- FUNCIÓN GUARDADO CON AISLAMIENTO ---
+  /**
+   * Finaliza la venta, persiste en el historial local 
+   * y envía peticiones PUT a la API para descontar el stock en la BD.
+   */
   const ejecutarGuardado = async () => {
     try {
       const nuevaEntrada = VentaServicio.prepararRegistroHistorial(
@@ -115,6 +124,7 @@ function App() {
       );
       setHistorial([...historial, nuevaEntrada]);
       
+      //Mapeo de actualizaciones de stock asíncronas hacia el Backend.
       const promesasActualizacion = productosVenta.map(prod => {
         return axios.put(
           `https://localhost:7130/api/Productos/actualizar-stock/${prod.id}`, 
@@ -126,7 +136,6 @@ function App() {
       await Promise.all(promesasActualizacion);
       setRecargarProductos(prev => prev + 1);
 
-      // Antes de limpiar productosVenta, los pasamos definitivamente al estado del modal
       setProductosParaFactura([...productosVenta]); 
       
       setEsReimpresion(false);
@@ -134,7 +143,7 @@ function App() {
       setDatosCliente({ id: '', cedula: '', apellido: '', nombre: '', telefono: '', direccion: '', correo: '' });
       setSeleccionado({ id: '', nombreComercial: '', nombreGenerico: '', presentacion: '', precio: 0, cantidad: '', stock: 0 });
       
-      // LIMPIAMOS LA MESA DE TRABAJO (La tabla de atrás)
+      //Limpieza de la mesa de trabajo
       setProductosVenta([]); 
 
       alert("Venta finalizada con éxito.");
@@ -144,7 +153,10 @@ function App() {
     }
   };
 
-  // --- FUNCIÓN REIMPRIMIR CON AISLAMIENTO ---
+  /**
+   * Carga los datos de una venta pasada en el modal de factura
+   * utilizando el estado de Reimpresion.
+   */
   const reimprimirFactura = (facturaGuardada) => {
     setEsReimpresion(true); 
     
@@ -156,7 +168,6 @@ function App() {
 
     setDatosVenta({ fecha: facturaGuardada.fecha, comprobante: facturaGuardada.comprobante });
 
-    // CARGAMOS SOLO EN EL ESTADO DEL MODAL (Aislamiento)
     if (facturaGuardada.detalleProductos) {
         setProductosParaFactura(facturaGuardada.detalleProductos);
     }
@@ -170,6 +181,7 @@ function App() {
     }, 300); 
   };
 
+  //Logica de validacion para habilitar el boton de facturacion.
   const facturaHabilitada = 
     !!datosCliente.cedula && !!datosCliente.nombre && 
     !!datosVenta.comprobante && 
@@ -184,6 +196,7 @@ function App() {
       </nav>
 
       <div className="container">
+        {/* COMPONENTES MODULARES: Se pasan estados y funciones mediante Props */}
         <CabeceraVenta datos={datosVenta} setDatos={setDatosVenta} />
         <Cliente datos={datosCliente} setDatos={setDatosCliente} buscarCliente={buscarCliente} />
         <DetalleProducto seleccionado={seleccionado} setSeleccionado={setSeleccionado} agregarALista={agregarALista} clienteListo={!!datosCliente.cedula && !!datosCliente.nombre} />
@@ -194,7 +207,7 @@ function App() {
         <FacturaModelo 
           datosVenta={datosVenta} 
           datosCliente={datosCliente} 
-          productos={productosParaFactura} // <--- USA EL ESTADO AISLADO
+          productos={productosParaFactura} 
           onGuardar={ejecutarGuardado} 
           soloLectura={esReimpresion} 
         />
