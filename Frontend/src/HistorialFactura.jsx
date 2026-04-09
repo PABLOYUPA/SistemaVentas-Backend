@@ -1,7 +1,7 @@
 import React from 'react';
 
 const HistorialFactura = ({ historial = [], onReimprimir }) => {
-    // Definimos la fuente estándar solicitada: Segoe UI, negro, sin negritas
+    //Segoe UI
     const fuenteBase = {
         fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
         color: 'black',
@@ -42,7 +42,6 @@ const HistorialFactura = ({ historial = [], onReimprimir }) => {
                                 <tbody>
                                     {historial.length > 0 ? (
                                         historial.map((factura, index) => (
-                                            /* Forzamos el fondo transparente para quitar el resaltado gris */
                                             <tr key={index} style={{ backgroundColor: 'transparent' }}>
                                                 <td style={fuenteBase}>{factura.fecha}</td>
                                                 <td style={fuenteBase}>{factura.comprobante}</td>
