@@ -19,7 +19,7 @@ const ResumenVenta = ({ productos = [], habilitarFactura }) => {
         transition: 'all 0.3s ease' 
     };
 
-    // Si no está habilitada, bajamos la opacidad y cambiamos el cursor
+    //Si no está habilitada, bajamos la opacidad y cambiamos el cursor
     const estiloBotonGenerar = {
         ...estiloBotonBase,
         backgroundColor: '#cccccc',
