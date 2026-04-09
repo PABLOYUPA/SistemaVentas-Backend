@@ -8,11 +8,11 @@ const Cliente = ({ datos, setDatos, buscarCliente }) => {
     color: 'black'
   };
 
-  // Estilo específico para campos de solo lectura (quita el cursor de texto)
+  //Campos de solo lectura
   const estiloSoloLectura = {
     ...fuenteBase,
     cursor: 'default',
-    userSelect: 'none' // Evita que se pueda seleccionar el texto como si fuera editable
+    userSelect: 'none' 
   };
 
   return (
@@ -53,9 +53,9 @@ const Cliente = ({ datos, setDatos, buscarCliente }) => {
                   type="text" 
                   className="form-control form-control-sm bg-light" 
                   readOnly 
-                  tabIndex="-1" // Quita el foco por teclado
+                  tabIndex="-1" 
                   value={datos.apellido || ''} 
-                  style={estiloSoloLectura} // Aplicamos el cursor default
+                  style={estiloSoloLectura}
                 />
             </div>
             <div className="col-6">
